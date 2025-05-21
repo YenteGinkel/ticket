@@ -1,25 +1,21 @@
 from google.cloud import pubsub_v1
 import json
 
-# STEP 1: Create a Pub/Sub publisher client
+# STEP 1: Maak een Pub/Sub publisher client
 publisher = pubsub_v1.PublisherClient()
 
-# STEP 2: Define your GCP project and topic
-project_id = "de2024-collin"  # your actual GCP project
+# STEP 2: Topic info
+project_id = "de2024-collin"
 topic_id = "payment-events"
-
 topic_path = publisher.topic_path(project_id, topic_id)
 
-# STEP 3: Define the message to send
-# This mimics a "PaymentSucceeded" event
+# STEP 3: Maak een test event (matcht je BigQuery data)
 data = {
-    "session_id": "s12345",     # must match an ID in your BigQuery sessions table
-    "user_id": "user123",
+    "session_id": 1001,             # Moet exact overeenkomen met je BigQuery sessie-id
+    "user_id": "user_test_001",
     "ticket_type": "VIP"
 }
 
-# STEP 4: Convert to bytes and publish to the topic
+# STEP 4: Verstuur het bericht
 future = publisher.publish(topic_path, json.dumps(data).encode("utf-8"))
-
-# STEP 5: Confirm publication
 print(f"✅ Published message ID: {future.result()}")
