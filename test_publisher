@@ -1,17 +1,25 @@
 from google.cloud import pubsub_v1
 import json
 
-project_id = "ticket-ada"
+# STEP 1: Create a Pub/Sub publisher client
+publisher = pubsub_v1.PublisherClient()
+
+# STEP 2: Define your GCP project and topic
+project_id = "de2024-collin"  # your actual GCP project
 topic_id = "payment-events"
 
-publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_id, topic_id)
 
+# STEP 3: Define the message to send
+# This mimics a "PaymentSucceeded" event
 data = {
-    "event_id": "festi2025_day1",
+    "session_id": "s12345",     # must match an ID in your BigQuery sessions table
     "user_id": "user123",
     "ticket_type": "VIP"
 }
 
+# STEP 4: Convert to bytes and publish to the topic
 future = publisher.publish(topic_path, json.dumps(data).encode("utf-8"))
-print(f"Published message ID: {future.result()}")
+
+# STEP 5: Confirm publication
+print(f"✅ Published message ID: {future.result()}")
