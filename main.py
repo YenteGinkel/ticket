@@ -12,7 +12,7 @@ def get_ticket_limits(session_id):
     """
     job_config = bigquery.QueryJobConfig(
         query_parameters=[
-            bigquery.ScalarQueryParameter("session_id", "STRING", session_id)
+            bigquery.ScalarQueryParameter("session_id", "INT64", session_id)
         ]
     )
     result = client.query(query, job_config=job_config).result()
@@ -30,7 +30,7 @@ def increment_issued(session_id):
     """
     job_config = bigquery.QueryJobConfig(
         query_parameters=[
-            bigquery.ScalarQueryParameter("session_id", "STRING", session_id)
+            bigquery.ScalarQueryParameter("session_id", "INT64", session_id)
         ]
     )
     client.query(query, job_config=job_config).result()
