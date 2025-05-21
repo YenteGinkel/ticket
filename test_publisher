@@ -1,0 +1,17 @@
+from google.cloud import pubsub_v1
+import json
+
+project_id = "ticket-ada"
+topic_id = "payment-events"
+
+publisher = pubsub_v1.PublisherClient()
+topic_path = publisher.topic_path(project_id, topic_id)
+
+data = {
+    "event_id": "festi2025_day1",
+    "user_id": "user123",
+    "ticket_type": "VIP"
+}
+
+future = publisher.publish(topic_path, json.dumps(data).encode("utf-8"))
+print(f"Published message ID: {future.result()}")
