@@ -30,4 +30,4 @@ def issue_ticket(event, context):
     })
 
     ticket_info_ref.update({'issued': firestore.Increment(1)})
-    print(f"✅ Ticket {ticket_id} uitgegeven aan {user_id}")
+    print(f"Ticket {ticket_id} uitgegeven aan {user_id}")
